@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using CleanArchMvc.Domain.Account;
 using CleanArchMvc.WebUI.ViewModels;
@@ -69,6 +70,13 @@ namespace CleanArchMvc.WebUI.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid register attempt (password must be strong)");
                 return View(model);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _authentication.Logout();
+            return Redirect("/");
         }
     }
 }
