@@ -7,10 +7,10 @@ namespace CleanArchMvc.Infra.Data.Identity
     public class AuthenticateService : IAuthenticate
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly AspNetUserManager<ApplicationUser> _userManager;
-
+        private readonly UserManager<ApplicationUser> _userManager;
+      
         public AuthenticateService(SignInManager<ApplicationUser> signInManager,
-            AspNetUserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;

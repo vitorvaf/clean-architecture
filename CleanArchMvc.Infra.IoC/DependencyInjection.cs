@@ -19,33 +19,28 @@ namespace CleanArchMvc.Infra.IoC
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services,
          IConfiguration configuration)
-        {
+        {           
+
             services.AddDbContext<ApplicationDbContext>( options => 
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-            
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser,IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(option => 
-                option.AccessDeniedPath = "/Acount/Login");
+            services.ConfigureApplicationCookie(options =>
+                     options.AccessDeniedPath = "/Account/Login");
 
-            
-            
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
-            
 
-             services.AddSingleton<IAuthenticate,AuthenticateService>(); 
-             services.AddSingleton<ISeedUserRoleInitial, SeedUserRoleInitial>();
-            
-            
+            services.AddScoped<IAuthenticate, AuthenticateService>();
+            services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
-         
 
             var myhandlers = AppDomain.CurrentDomain.Load("CleanArchMvc.Application");
             services.AddMediatR(myhandlers);
@@ -54,3 +49,4 @@ namespace CleanArchMvc.Infra.IoC
         }
     }
 }
+ 
